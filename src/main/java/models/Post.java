@@ -1,6 +1,6 @@
 package models;
 
-import interfaces.user.IPost;
+import interfaces.IPost;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

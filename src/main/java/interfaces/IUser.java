@@ -1,4 +1,4 @@
-package interfaces.user;
+package interfaces;
 
 public interface IUser {
     public Integer getId();

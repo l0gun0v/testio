@@ -1,4 +1,4 @@
-package interfaces.user;
+package interfaces;
 
 public interface IPost {
 }
