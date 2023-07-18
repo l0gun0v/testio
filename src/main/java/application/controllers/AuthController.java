@@ -39,9 +39,15 @@ public class AuthController {
         System.out.println(getAuth());
         return "home";
     }
+
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String loginPage(){
         return "login";
+    }
+
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String blank(){
+        return "redirect:/home";
     }
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public String register(HttpServletRequest request, HttpServletResponse response, Model model){
@@ -49,22 +55,6 @@ public class AuthController {
         model.addAttribute("user",user);
         return "register";
     }
-
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @RequestParam("email")String email, @RequestParam("password")String password){
-        User user = userService.getUserByEmail(email);
-        if(user == null){
-            return new ModelAndView("redirect:/login?error");
-        }
-        System.out.println("here1");
-        if(user.getPassword().equals(password)){
-            setToken(request, user);
-            System.out.println("here");
-            return new ModelAndView("redirect:/home");
-        }
-        return new ModelAndView("redirect:/login?error");
-    }
-
     private void setToken(HttpServletRequest request, User user) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
         SecurityContext securityContext = SecurityContextHolder.getContext();

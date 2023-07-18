@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/logstyle1.css">
 </head>
 <body>
-<h1>Login</h1>
-<p th:if="${param.error}" class="error">Wrong email or password</p>
-<form th:action="@{/login}" method="post">
-    <label for="email">Email</label>:
-    <input type="text" id="email" name="username" autofocus="autofocus"  th:text="${email}"/> <br />
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password"  th:text="${password}"/> <br />
-    <input type="submit" value="Log in" />
-</form>
+<div class="wrapper">
+    <div class="inner">
+        <div class="form-holder">
+            <p th:if="${param.error}" class="error">Wrong email or password</p>
+        </div>
+        <form th:action="@{/login}" method="post">
+            <h3>Welcome to ...</h3>
+                <div class="form-holder">
+                    <input type="text" id="email" name="username" class="form-control" placeholder="Email" th:text="${email}">
+                </div>
+                <div class="form-holder">
+                    <input type="password" id="password" name="password"  class="form-control" placeholder="Password" th:text="${password}">
+                </div>
+                <button>
+                    <span>Log In</span>
+                </button>
+                <a href="/register">
+                    <button type="button">Don't have an account?</button>
+                </a>
+        </form>
+    </div>
+</div>
 </body>
 </html>
