@@ -53,7 +53,7 @@ public class AuthController extends IController{
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ModelAndView createNewUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user")User user){
-        User someUser = userService.getUserByEmail(user.getEmail());
+        User someUser = userService.getUserByUsername(user.getEmail());
         if(someUser != null){
             return new ModelAndView("redirect:/register?error");
         }

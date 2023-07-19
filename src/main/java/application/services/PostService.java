@@ -14,12 +14,13 @@ public class PostService {
     public PostService(PostRepository postRepository){
         this.postRepository = postRepository;
     }
-    public List<Post> getPostByID(int userID){
-        return postRepository.findPostsByUser(userID);
+    public List<Post> getPostByUsername(String username){
+        return postRepository.findPostsByUsername(username);
     }
-    public void createPost(Long ownerId, String text) {
+
+    public void createPost(String  ownerUsername, String text) {
         Post newPost = new Post();
-        newPost.setOwnerID(ownerId);
+        newPost.setOwnerUsername(ownerUsername);
         newPost.setText(text);
         postRepository.save(newPost);
     }

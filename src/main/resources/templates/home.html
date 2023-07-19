@@ -15,6 +15,7 @@
     <nav>
         <ul>
             <li><a href="/chat"><i class="fas fa-comments user-icon"></i></a></li>
+            <li><a href="/settings"><i class="fas fa-cog user-icon"></i></a></li>
             <li><a href="/logout"><i class="fas fa-sign-out-alt user-icon"></i></a></li>
         </ul>
     </nav>
@@ -28,7 +29,7 @@
     </section>
     <!-- Итерация по списку постов и вывод их содержимого -->
     <div th:each="post : ${posts}" class="post new-post-form">
-        <h2 th:text="${post.ownerID}"></h2>
+        <h2 th:text="${post.ownerUsername}"></h2>
         <p th:text="${post.text}"></p>
     </div>
 </main>

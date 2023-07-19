@@ -16,8 +16,8 @@ public class Post {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ownerID")
-    private Long ownerID;
+    @Column(name = "ownerUsername")
+    private String ownerUsername;
     @Column(name = "TEXT", length = 1000)
     private String text;
 

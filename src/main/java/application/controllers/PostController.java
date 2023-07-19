@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.interfaces.IController;
+import application.interfaces.IControllerWithPosts;
 import application.models.Post;
 import application.models.User;
 import application.models.UserRepository;
@@ -18,22 +19,31 @@ import static application.security.SecurityConfig.getAuth;
 
 @Controller
 @RequestMapping("")
-public class PostController extends IController {
-    public final PostService postService;
+public class PostController extends IControllerWithPosts {
     public PostController(UserService userService, AuthenticationManager authenticationManager, PostService postService) {
-        super(userService, authenticationManager);
-        this.postService = postService;
-
+        super(userService, authenticationManager, postService);
     }
+
     @RequestMapping(value = "/home",method = RequestMethod.POST)
-    public ModelAndView createPost(@RequestParam("postContent") String postContent, Model model){
+    public ModelAndView createPostFromHome(@RequestParam("postContent") String postContent, Model model){
         System.out.println(postContent);
         if(postContent.length() > 1000) {
             return new ModelAndView("redirect:/home");
         }
-        User user = userService.getUserByEmail(getAuth());
-        postService.createPost(user.getId(), postContent);
+        User user = userService.getUserByUsername(getAuth());
+        postService.createPost(user.getUsername(), postContent);
         return new ModelAndView("redirect:/home");
+    }
+
+    @RequestMapping(value = "/profile",method = RequestMethod.POST)
+    public ModelAndView createPostFromProfile(@RequestParam("postContent") String postContent, Model model){
+        System.out.println(postContent);
+        if(postContent.length() > 1000) {
+            return new ModelAndView("redirect:/profile");
+        }
+        User user = userService.getUserByUsername(getAuth());
+        postService.createPost(user.getUsername(), postContent);
+        return new ModelAndView("redirect:/profile");
     }
 
 }

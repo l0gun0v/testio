@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.interfaces.IController;
+import application.interfaces.IControllerWithPosts;
 import application.models.UserRepository;
 import application.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,11 +27,10 @@ import static application.security.SecurityConfig.getAuth;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController extends IController {
-    public final PostService postService;
+public class HomeController extends IControllerWithPosts {
+
     public HomeController(UserService userService, AuthenticationManager authenticationManager, PostService postService) {
-        super(userService, authenticationManager);
-        this.postService = postService;
+        super(userService, authenticationManager, postService);
     }
 
     @RequestMapping(value = "",method = RequestMethod.GET)

@@ -1,7 +1,9 @@
 package application.controllers;
 
 import application.interfaces.IController;
+import application.interfaces.IControllerWithPosts;
 import application.models.User;
+import application.services.PostService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +15,15 @@ import static application.security.SecurityConfig.getAuth;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController extends IController {
-    public ProfileController(UserService userService, AuthenticationManager authenticationManager) {
-        super(userService, authenticationManager);
+public class ProfileController extends IControllerWithPosts {
+
+    public ProfileController(UserService userService, AuthenticationManager authenticationManager, PostService postService) {
+        super(userService, authenticationManager, postService);
     }
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String profilePage(Model model){
-        //model.addAttribute("username", getAuth());
-        System.out.println(getAuth());
-        User user = userService.getUserByEmail(getAuth());
-        System.out.println(user.getId());
+        model.addAttribute("posts", postService.getPostByUsername(getAuth()));
         return "/profile";
     }
 }
