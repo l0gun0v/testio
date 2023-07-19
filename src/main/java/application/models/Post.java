@@ -1,31 +1,25 @@
 package application.models;
 
-import application.interfaces.IPost;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Post implements IPost {
+@Table(name = "POSTS")
+public class Post {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "ID")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;
-    private Integer ownerId;
+    @Column(name = "ownerID")
+    private Long ownerID;
+    @Column(name = "TEXT", length = 1000)
     private String text;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
 
 }

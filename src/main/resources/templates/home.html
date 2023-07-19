@@ -2,10 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<h1>Welcome, <span th:text="${username}"></span>!</h1>
-<p>This is private information that only logged-in users can see.</p>
-<a href="/logout">Logout</a>
+<header>
+    <a href="/profile"><i class="fas fa-user user-icon"></i></a>
+    <form th:action="@{/home}" method="post" class="search-form">
+        <input type="text" class="search-input" name="searchQuery" placeholder="Search post">
+    </form>
+    <nav>
+        <ul>
+            <li><a href="/chat"><i class="fas fa-comments user-icon"></i></a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt user-icon"></i></a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section class="new-post-form">
+        <form th:action="@{/home}" method="post">
+            <textarea name="postContent" rows="3" placeholder="Write your post here"></textarea>
+            <button type="submit">Create Post</button>
+        </form>
+    </section>
+    <!-- Итерация по списку постов и вывод их содержимого -->
+    <div th:each="post : ${posts}" class="post new-post-form">
+        <h2 th:text="${post.ownerID}"></h2>
+        <p th:text="${post.text}"></p>
+    </div>
+</main>
+
 </body>
 </html>

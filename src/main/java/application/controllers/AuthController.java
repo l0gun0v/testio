@@ -1,4 +1,7 @@
 package application.controllers;
+
+import application.models.UserRepository;
+import application.interfaces.IController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -20,24 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("")
-public class AuthController {
-
-    public static String getAuth(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-    private final UserService userService;
-
-    private final AuthenticationManager authenticationManager;
-
+public class AuthController extends IController{
     public AuthController(UserService userService, AuthenticationManager authenticationManager) {
-        this.userService = userService;
-        this.authenticationManager = authenticationManager;
-    }
-    @RequestMapping(value = "/home",method = RequestMethod.GET)
-    public String homePage(Model model){
-        model.addAttribute("username", getAuth());
-        System.out.println(getAuth());
-        return "home";
+        super(userService, authenticationManager);
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -63,12 +51,13 @@ public class AuthController {
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,securityContext);
     }
 
-
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ModelAndView createNewUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user")User user){
-
+        User someUser = userService.getUserByEmail(user.getEmail());
+        if(someUser != null){
+            return new ModelAndView("redirect:/register?error");
+        }
         try {
-
             user.setRole("USER");
 
             User newUser = userService.createUser(user);

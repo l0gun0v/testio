@@ -14,6 +14,9 @@ import application.services.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    public static String getAuth(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
