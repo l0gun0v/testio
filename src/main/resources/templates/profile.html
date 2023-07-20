@@ -36,11 +36,13 @@
             </section>
             <div>
                 <form th:action="@{/profile/__${user.username}__}" method="post" th:if="${addContact}" class="bbutton">
+                    <input name="addContact" type="hidden">
                     <button>
                         Add to contacts
                     </button>
                 </form>
                 <form th:action="@{/profile/__${user.username}__}" method="post" th:if="${deleteContact}"  class="bbutton">
+                    <input name="deleteContact" type="hidden">
                     <button >
                         Delete from contacts
                     </button>

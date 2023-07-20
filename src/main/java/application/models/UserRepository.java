@@ -14,4 +14,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findUserByUsername(@Param("username") String username);
     @Query("SELECT u FROM User u ORDER BY u.username")
     List<User> getAllUsers();
+    @Query("SELECT u FROM User u WHERE u.id not in (SELECT r.userTwo FROM Relationship r WHERE r.userOne =:ID) ORDER BY u.username")
+    List<User> getAllNotContacts(@Param("ID") Long ID);
+
+    @Query("SELECT u FROM User u WHERE u.id in (SELECT r.userTwo FROM Relationship r WHERE r.userOne =:ID) ORDER BY u.username")
+    List<User> getAllContacts(@Param("ID") Long ID);
+
 }

@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.interfaces.IControllerWithPosts;
+import application.models.Relationship;
 import application.models.User;
 import application.services.PostService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,6 @@ import static application.security.SecurityConfig.getAuth;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends IControllerWithPosts {
-
     public ProfileController(UserService userService, AuthenticationManager authenticationManager, PostService postService) {
         super(userService, authenticationManager, postService);
     }
@@ -34,26 +34,39 @@ public class ProfileController extends IControllerWithPosts {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public String getProfileById(@PathVariable("username") String userUsername, Model model) {
-        User user = userService.getUserByUsername(userUsername);
-        if(user == null || user.getUsername().equals(getAuth())) {
-            return "redirect:/profile";
+        User user1 = userService.getUserByUsername(getAuth());
+        User user2 = userService.getUserByUsername(userUsername);
+        if(user2 == null) {
+            return "redirect:/contacts";
         }
-        model.addAttribute("posts", postService.getPostByUsername(user.getUsername()));
-        model.addAttribute("user", user);
+        model.addAttribute("posts", postService.getPostByUsername(user2.getUsername()));
+        model.addAttribute("user", user2);
         model.addAttribute("showForm", false);
-        model.addAttribute("addContact", false);
-        model.addAttribute("deleteContact", true);
+        if(user1.getUsername().equals(userUsername)){
+            model.addAttribute("addContact", false);
+            model.addAttribute("deleteContact", false);
+        }
+        else {
+            Relationship relationship = userService.getRelationship(user1.getId(), user2.getId());
+            model.addAttribute("addContact", relationship == null);
+            model.addAttribute("deleteContact", relationship != null);
+        }
         return "profile";
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
-    public String handleFormSubmit(Model model, @PathVariable("username") String userUsername, @RequestParam(required = false) Boolean addContact, @RequestParam(required = false) Boolean deleteContact) {
-        if (addContact != null && addContact) {
+    public String handleFormSubmit(Model model, @PathVariable("username") String userUsername, @RequestParam(required = false) String addContact, @RequestParam(required = false) String deleteContact) {
+        User user1 = userService.getUserByUsername(getAuth());
+        User user2 = userService.getUserByUsername(userUsername);
+        if(user2 == null) {
+            return "redirect:/contacts";
+        }
+        if (addContact != null) {
             System.out.println("ADD");
-            //TODO add relation
+            userService.addRelation(user1.getId(), user2.getId());
         } else {
             System.out.println("DELETE");
-            //TODO delete relation
+            userService.deleteRelation(user1.getId(), user2.getId());
         }
         return "redirect:/profile/" + userUsername;
     }

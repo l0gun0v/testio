@@ -24,7 +24,8 @@ public class PostService {
         newPost.setText(text);
         postRepository.save(newPost);
     }
-    public List<Post> allPost() {
-        return postRepository.allPosts();
+    public List<Post> allContactsPost(List<String> contacts) {
+        return postRepository.allContactsPosts(contacts);
     }
+
 }

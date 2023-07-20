@@ -13,4 +13,7 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
 
     @Query("SELECT p FROM Post p ORDER BY p.id DESC")
     List<Post> allPosts();
+
+    @Query("SELECT p FROM Post p WHERE p.ownerUsername IN :contacts ORDER BY p.id DESC")
+    List<Post> allContactsPosts(@Param("contacts") List<String> contacts);
 }

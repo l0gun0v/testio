@@ -23,6 +23,9 @@ import application.services.UserService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static application.security.SecurityConfig.getAuth;
 
 @Controller
@@ -35,8 +38,13 @@ public class HomeController extends IControllerWithPosts {
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String homePage(Model model){
-        model.addAttribute("posts", postService.allPost());
-        System.out.println( postService.allPost().get(0).getText());
+        User user = userService.getUserByUsername(getAuth());
+        List<User> contacts = userService.getAllContacts(user.getId());
+        List<String> contactsUsernames = new ArrayList<>();
+        for(User u : contacts){
+            contactsUsernames.add(u.getUsername());
+        }
+        model.addAttribute("posts", postService.allContactsPost(contactsUsernames));
         return "/home";
     }
 }
