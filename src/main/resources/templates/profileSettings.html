@@ -9,11 +9,12 @@
 </head>
 <body>
 <header>
-    <a href="/profile"><i class="fas fa-arrow-left"></i></a>
+    <a href="/profile"><i class="fas fa-user user-icon"></i></a>
     <nav>
         <ul>
-            <li><a href="/chat"><i class="fas fa-comments user-icon"></i></a></li>
             <li><a href="/home"><i class="fas fa-file-alt user-icon"></i></a></li>
+            <li><a href="/messenger"><i class="fas fa-comments user-icon"></i></a></li>
+            <li><a href="/contacts"><i class="fas fa-users user-icon"></i></a></li>
             <li><a href="/logout"><i class="fas fa-sign-out-alt user-icon"></i></a></li>
         </ul>
     </nav>
@@ -45,13 +46,13 @@
                 <input  type="text" id="country" class="form-control" placeholder="Country" th:field="*{country}">
             </div>
             <div class="form-holder">
-                <input  type="date" id="dateOfBirth" class="form-control" placeholder="Country" th:field="*{dateOfBirth}">
+                <input  type="date" id="dateOfBirth" class="form-control" placeholder="Data" th:field="*{dateOfBirth}">
             </div>
             <div class="form-holder">
                 <input  type="password" id="password" class="form-control" placeholder="Old Password" th:field="*{password}">
             </div>
             <div class="form-holder">
-                <input type="password" id="second_password" class="form-control" placeholder="New Password" th:text="${second_password}">
+                <input type="password" id="newPassword" class="form-control" placeholder="New Password" name="newPassword">
             </div>
             <button>
                 <span>Save</span>

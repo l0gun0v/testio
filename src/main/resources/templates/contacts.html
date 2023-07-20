@@ -9,8 +9,8 @@
 <body>
 <header>
     <a href="/profile"><i class="fas fa-user user-icon"></i></a>
-    <form th:action="@{/home}" method="post" class="search-form">
-        <input type="text" class="search-input" name="searchQuery" placeholder="Search post">
+    <form th:action="@{/profile}" method="post" class="search-form">
+        <input type="text" class="search-input" name="searchQuery" placeholder="Search user">
     </form>
     <nav>
         <ul>
@@ -22,18 +22,19 @@
         </ul>
     </nav>
 </header>
-<main>
-    <section class="new-post-form">
-        <form th:action="@{/home}" method="post">
-            <textarea name="postContent" rows="3" placeholder="Write your post here"></textarea>
-            <button type="submit">Create Post</button>
-        </form>
-    </section>
-    <div th:each="post : ${posts}" class="post new-post-form">
-        <h2 th:text="${post.ownerUsername}"></h2>
-        <p style="white-space: pre-wrap;  word-wrap: break-word;" th:text="${post.text}"></p>
-    </div>
-</main>
 
+<div th:each="user : ${friends}" class="contact-form" style="display: flex; align-items: center;" th:attr="onclick='redirectToProfile(\'' + @{${'/profile/' + user.username}} + '\');'">
+    <div class="user-photo-small">
+        <img th:src="${user.profilePhotoUrl}" style="width: 50px; height: 50px;">
+    </div>
+    <h1 th:text="${user.username}" style="margin-left: 10px;"></h1>
+</div>
+
+
+<div class="horizontal-divider"></div>
 </body>
-</html>
+<script>
+    function redirectToProfile(url) {
+        window.location.href = url;
+    }
+</script>

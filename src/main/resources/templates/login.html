@@ -9,16 +9,13 @@
 <body>
 <div class="wrapper">
     <div class="inner">
-        <div class="form-holder">
-            <p th:if="${param.error}" class="error">Wrong email or password</p>
-        </div>
         <form th:action="@{/login}" method="post">
             <h3>Welcome to ...</h3>
                 <div class="form-holder">
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" th:text="${username}">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" >
                 </div>
                 <div class="form-holder">
-                    <input type="password" id="password" name="password"  class="form-control" placeholder="Password" th:text="${password}">
+                    <input type="password" id="password" name="password"  class="form-control" placeholder="Password">
                 </div>
                 <button>
                     <span>Log In</span>

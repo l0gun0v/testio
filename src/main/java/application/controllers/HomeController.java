@@ -36,6 +36,7 @@ public class HomeController extends IControllerWithPosts {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String homePage(Model model){
         model.addAttribute("posts", postService.allPost());
+        System.out.println( postService.allPost().get(0).getText());
         return "/home";
     }
 }

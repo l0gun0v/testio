@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,12 @@
 </head>
 <body>
 <header>
-    <a href="/home"><i class="fas fa-file-alt user-icon"></i></a>
+    <a href="/profile"><i class="fas fa-user user-icon"></i></a>
     <nav>
         <ul>
-            <li><a href="/chat"><i class="fas fa-comments user-icon"></i></a></li>
+            <li><a href="/home"><i class="fas fa-file-alt user-icon"></i></a>
+            <li><a href="/contacts"><i class="fas fa-users user-icon"></i></a></li>
+            <li><a href="/messenger"><i class="fas fa-comments user-icon"></i></a></li>
             <li><a href="/profile/settings"><i class="fas fa-cog user-icon"></i></a></li>
             <li><a href="/logout"><i class="fas fa-sign-out-alt user-icon"></i></a></li>
         </ul>
@@ -22,12 +24,33 @@
     <div class="content-wrapper">
         <div class="left-section">
             <div class="user-photo">
-                <img src="">
+                <img th:src="${user.profilePhotoUrl}">
             </div>
+            <section class="new-post-form">
+                <h2></h2> First Name <span th:text="${user.firstName}"></span>
+                <h2></h2> Last Name <span th:text="${user.lastName}"></span>
+                <h2></h2> Gender <span th:text="${user.gender}"></span>
+                <h2></h2> Country <span th:text="${user.country}"></span>
+                <h2></h2> Birth Data <span th:text="${#dates.format(user.dateOfBirth, 'yyyy-MM-dd')}"></span>
+
+            </section>
+            <div>
+                <form th:action="@{/profile/__${user.username}__}" method="post" th:if="${addContact}" class="bbutton">
+                    <button>
+                        Add to contacts
+                    </button>
+                </form>
+                <form th:action="@{/profile/__${user.username}__}" method="post" th:if="${deleteContact}"  class="bbutton">
+                    <button >
+                        Delete from contacts
+                    </button>
+                </form>
+            </div>
+
         </div>
 
         <div class="right-section">
-            <section class="new-post-form">
+            <section class="new-post-form" th:if="${showForm}">
                 <form th:action="@{/profile}" method="post">
                     <textarea name="postContent" rows="3" placeholder="Write your post here"></textarea>
                     <button type="submit">Create Post</button>
@@ -35,7 +58,7 @@
             </section>
             <div th:each="post : ${posts}" class="post new-post-form">
                 <h2 th:text="${post.ownerUsername}"></h2>
-                <p th:text="${post.text}"></p>
+                <p style="white-space: pre-wrap;  word-wrap: break-word;" th:text="${post.text}"></p>
             </div>
         </div>
     </div>
